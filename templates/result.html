@@ -1,0 +1,91 @@
+{% extends 'main.html' %}
+
+
+{% block body %}
+<!--Navbar-->
+<div class=" card border border-light p-5">
+
+
+<form class="form-inline my-2 my-lg-0 ml-auto">
+  <button class="btn waves-effect waves-light" type="submit" name="action">Home Page
+    <i class="material-icons left">keyboard_backspace</i>
+    </button></form>
+
+<h3 class="text-center">Results for Twitter username @{{ username }}</h3><br>
+
+<div>
+  <div style="width:25%; margin:0 auto;" class="card text-center row d-flex justify-content-center">
+    
+    Negative: {{ result.neg }}<br>
+    Positive: {{ result.pos }}<br>
+    Neutral: {{ result.neut }}
+  </div>
+  <br>
+
+    <div style="height: 300px;"  class="ct-chart ct-perfect-fourth"></div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Negative tweets</th>
+        </tr>
+      </thead>
+      </table>
+      
+    {% for tweet in result.negative_tweets %}
+        <li>{{ tweet }}</li>
+    {% endfor %}
+<br>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Positive tweets</th>
+        </tr>
+      </thead>
+      </table>
+    {% for tweet in result.positive_tweets %}
+        <li>{{ tweet }}</li>
+    {% endfor %}
+<br>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Neutral tweets</th>
+        </tr>
+      </thead>
+      </table>
+    {% for tweet in result.neutral_tweets %}
+        <li>{{ tweet }}</li>
+    {% endfor %}
+  </div>
+
+
+    <script>
+    var data = {
+      // A labels array that can contain any sort of values
+      labels: ['Negative', 'Positive', 'Neutral'],
+      // Our series array that contains series objects or in this case series data arrays
+      series: [
+        {{ result.neg }}, {{ result.pos }}, {{ result.neut }}
+      ]
+    };
+    
+
+
+
+
+    // Create a new line chart object where as first parameter we pass in a selector
+    // that is resolving to our chart container element. The Second parameter
+    // is the actual data object.
+    // new Chartist.Line('.ct-chart', data);
+    var sum = function(a, b) { return a + b };
+    new Chartist.Pie('.ct-chart', data, {
+    //   labelInterpolationFnc: function(value) {
+    //     return Math.round(value / data.series.reduce(sum) * 100) + '%';
+    //   }
+    });
+
+    </script>
+</div>
+
+{% endblock %}
